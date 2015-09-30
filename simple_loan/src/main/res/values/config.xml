@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Lenddo App partner id -->
+    <string name="partner_script_id">PLACE_YOUR_PARTNER_SCRIPT_ID_HERE</string>
+    <string name="api_secret">PLACE_YOUR_API_SECRET_HERE</string>
+</resources>
