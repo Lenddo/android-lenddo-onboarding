@@ -136,7 +136,7 @@ public class SampleActivity extends Activity implements LenddoEventListener {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         c.set(year, monthOfYear, dayOfMonth);
-                        editTextEmploymentStart.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH)  );
+                        editTextEmploymentStart.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH));
                     }
                 }, year, month, day);
                 datePicker.show();
@@ -226,6 +226,8 @@ public class SampleActivity extends Activity implements LenddoEventListener {
 
     @Override
     public void onAuthorizeComplete(FormDataCollector collector) {
+        //Called when the process is complete
+
         Intent finishIntent = new Intent(SampleActivity.this, CompleteActivity.class);
         AuthorizationStatus status = collector.getAuthorizationStatus();
         finishIntent.putExtra("verification", status.getVerification());
@@ -239,10 +241,17 @@ public class SampleActivity extends Activity implements LenddoEventListener {
 
     @Override
     public void onAuthorizeCanceled(FormDataCollector collector) {
+        //Called when canceled
+
         Toast.makeText(SampleActivity.this, "canceled!", Toast.LENGTH_LONG).show();
         Intent finishIntent = new Intent(SampleActivity.this, CanceledActivity.class);
         startActivity(finishIntent);
         finish();
+    }
+
+    @Override
+    public void onAuthorizeError(int statusCode, String response) {
+        //Called when unexpected errors
     }
 
     @Override

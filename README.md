@@ -10,4 +10,4 @@ For the latest documentation please refer to the pdf that will be provided to yo
 VERSION
 =======
 
-This is version 1.8 of the SDK, please ensure that the verson number of your PDF document matches.
+This is version 1.9 of the SDK, please ensure that the verson number of your PDF document matches.
