@@ -39,7 +39,7 @@ The Lenddo SDK for Android allows you to integrate the Lenddo Verification and/o
 ## Getting Started
 
 1.  First make sure you have all the requirements. See the [Requirements](#requirements) section below.
-2.  Successfully run the SDK in a simple loan app. See the [Installation](#installation) section below.
+2.  Successfully run the SDK in a simple loan app. See the [Installation update with screenshot](#installation-update-with-screenshot) section below.
 3.  Add the Lenddo SDK libraries to your own application.
 4.  Test and deploy
 
