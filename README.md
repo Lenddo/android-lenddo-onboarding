@@ -65,7 +65,7 @@ The **LenddoSDK** folder contains the actual Lenddo SDK library project that you
 1.  Using Android Studio, click on **Select File -> Open** and **choose** the folder LenddoSDK-android which was created when you extracted the Lenddo SDK.zip. Android Studio will automatically set up the project for you.
 2.  The sample app is already configured to use the LenddoSDK, all you need to do is to fill in your **partner-script-id**. Edit the **simple_loan/src/main/res/values/config.xml** and replace the words “PLACE YOUR PARTNER SCRIPT ID HERE” with the **partner_script_id** key provided to you. (See below)
 
-    ```
+    ```xml
     <?xml version="1.0" encoding="utf-8"?>
     <resources>
       <!-- Lenddo Partner Script ID -->
@@ -85,13 +85,13 @@ Inside the extracted directory, copy the **LenddoSDK** subfolder and place it in
 
 Edit the **settings.gradle** file and add the following:
 
-```
+```java
 include ':LenddoSDK'
 ```
 
 Open and edit the **build.gradle** file of your app (not the one in the project root but in the app folder), you should see a section for dependencies below is an example on how it looks:
 
-```
+```java
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
@@ -99,7 +99,7 @@ dependencies {
 
 Add "compile project(':LenddoSDK')" so that it looks like the following:
 
-```
+```java
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':LenddoSDK')
@@ -112,7 +112,7 @@ Android Studio should tell you to resync, the SDK classes should now be availabl
 
 The required permissions are already defined in the Lenddo SDK and should automatically be incorporated to your app, however the permissions below are required:
 
-```
+```java
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
@@ -129,7 +129,7 @@ The SDK has been tested on Android ICS 4.0 and above. Compatibility is not guara
 
 Edit your apps' AndroidManifest.xml (located in your src/main folder for gradle projects), and then add the following meta tag under the application tag:
 
-```
+```java
 <meta-data android:name="partnerScriptId" android:value="partner_script_id" />
 ```
 
@@ -158,7 +158,7 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
 
 2.  Open up your Forms' layout xml and add the following to include the Lenddo Button onto your Layout:
 
-    ```
+    ```java
     <com.lenddo.sdk.widget.LenddoButton
        android:id="@+id/verifyButton"
        android:layout_width="match_parent"
@@ -171,7 +171,7 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
 
 3.  Create an Instance of the UIHelper class inside the onCreate block of your activity. Note that the class constructor requires a **LenddoEventListener**. For the sample app, it implements the current activity as a **LenddoEventListener**.
 
-    ```
+    ```java
     private UIHelper helper;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +182,7 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
 
 4.  Setup your activity to implement the **LenddoEventListener** in your class or you can define your own class:
 
-    ```
+    ```java
     public class SampleActivity extends Activity implements LenddoEventListener {
 
         ....
@@ -216,14 +216,14 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
 
 5.  Still on the onCreate method, Link the button to the UIHelper:
 
-    ```
+    ```java
     LenddoButton button = (LenddoButton) findViewById(R.id.verifyButton);
       button.setUiHelper(helper);
     ```
 
 6.  Pass the content of the form using the form collector. On the onButtonClicked method, you can set the required information using the formData object passed to you. You can also send additional custom fields (To be discussed with your Lenddo representative)
 
-    ```
+    ```java
     @Override
     public boolean onButtonClicked(FormDataCollector formData) {
 
@@ -254,7 +254,7 @@ You may customize the Look and Feel of the Lenddo Button in a couple of ways:
 1.  Style are available at the Lenddo SDK res/drawables where you can change various button attributes.
 2.  You may create or use any of your existing Button. However you need to manually handle the onClick event with **UIHelper.showAuthorize** like this:
 
-    ```
+    ```java
     helper = new UIHelper(this, this);
 
     Button sampleButton = (Button) findViewById(R.id.sample_button);
@@ -299,7 +299,7 @@ provided to you by your Lenddo representative.
 
 1. Add the api secret. In your AndroidManifest.xml, make sure to add the following meta:
 
-  ```
+  ```java
   <application ….>
     <meta­data ​android​:​name​=​"partnerApiSecret" ​android​:value=​"api_secret_here" ​/>
   </application>
@@ -308,7 +308,7 @@ provided to you by your Lenddo representative.
 `setFacebookToken​method`, the actual token and expiration date are passed (see below for
 an example):
   
-  ```
+  ```java
   @Override
   public boolean ​onButtonClicked(FormDataCollector formData) {
     //auto­collect (optional)
@@ -346,14 +346,14 @@ Passing the data is similar to how it is done when using the Lenddo Button:
 
 1. Create an instance of the `UIHelper`
 
-  ```
+  ```java
   helper ​= new ​UIHelper(activity​, lenddoEventListener​);
   ```
   
 2. Implement the LenddoEventListener. Passing the required data is done on the
 onButtonClicked() method.
 
-  ```
+  ```java
   @Override
   public boolean ​onButtonClicked(FormDataCollector formData) {
     formData.setClientId(customerId​.getText().toString());
@@ -376,11 +376,11 @@ different one for this.
 3. Call the `UIHelper.startVerificationUsingFacebookToken()` to start the verificaton process
 passing along the UIHelper and facebook token details (See below for an example):
 
-```
-AccessToken accessToken = AccessToken.getCurrentAccessToken();
-UIHelper.startVerificationUsingFacebookToken(activity,
-accessToken.getToken().toString(), accessToken.getExpires().getTime(),
-uiHelper);
+```java
+    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+    UIHelper.startVerificationUsingFacebookToken(activity,
+    accessToken.getToken().toString(), accessToken.getExpires().getTime(),
+    uiHelper);
 ```
 
 The `onAuthorizeComplete()` callback method will be called once the process is complete.
@@ -391,7 +391,7 @@ verification results, please refer to the REST api documentation.
 
 This is optional. If you don’t what to use `.getText()` on settings the field values, the auto-collector allows you to send tagged fields in your layout by simply using `formData.collect()`. however, you do need to tell the auto-collector which fields need to be sent. This is done by adding a tag field to your layout xml like below:
 
-```
+```java
 <LinearLayout style="@style/fieldContainer">
     <TextView
         style="@style/formLabel"
