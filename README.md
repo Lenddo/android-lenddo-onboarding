@@ -18,7 +18,7 @@ Lenddo SDK for Android
     3.  [Customizing the Lenddo Button](#customizing-the-lenddo-button)
     4.  [Passing a Facebook Token (Optional)](#passing-a-facebook-token-optional)
         1. [Setting up your app](#setting-up-your-app)
-    5.  [Directly Passing Data for Verification (Requires Facebook token)](#directly-passing-data-for-verification-requires-facebook-token) 
+    5.  [Directly Passing Data for Verification (Requires Facebook token)](#directly-passing-data-for-verification-requires-facebook-token)
     6.  [Using the auto-collector (Optional)](#using-the-auto-collector-optional)
 
 ## Introduction
@@ -134,6 +134,25 @@ Edit your apps' AndroidManifest.xml (located in your src/main folder for gradle 
 ```
 
 where **partner_script_id** is the partner script id provided to you by Lenddo.
+
+### Enable quirks mode.
+
+The Lenddo SDK requires WebView quirks mode to be enabled. The only way to do this
+is to set the targetSdkVersion to 18. Please add the following to your build.gradle
+file
+
+```groovy
+android {
+
+  .....
+
+  defaultConfig {
+    .....
+    targetSdkVersion 18
+    .....
+  }
+}
+```
 
 ### Add the Lenddo Button to your form
 
@@ -307,19 +326,19 @@ provided to you by your Lenddo representative.
 2. Pass the actual facebook token during the onboarding process using the
 `setFacebookToken​method`, the actual token and expiration date are passed (see below for
 an example):
-  
+
   ```java
   @Override
   public boolean ​onButtonClicked(FormDataCollector formData) {
     //auto­collect (optional)
     formData .collect(SampleActivity.this​, R.id.formContainer​);
-    
+
     AccessToken accessToken = AccessToken.​getCurrentAccessToken​();
     formData.setFacebookToken(accessToken.getToken().toString(),
     accessToken.getExpires().getTime());
-    
+
     Address primaryAddress = new ​Address();
-    
+
     primaryAddress.setHouseNumber(houseNumber​.getText().toString());
     primaryAddress.setStreet(street​.getText().toString());
     primaryAddress.setBarangay(barangay​.getText().toString());
@@ -327,7 +346,7 @@ an example):
     primaryAddress.setCity(city​.getText().toString());
     primaryAddress.setPostalCode(postalCode​.getText().toString());
   ```
-  
+
 ### Directly Passing Data for Verification (Requires Facebook token)
 
 If you have a facebook token and only verification is needed by your app, you may skip the
@@ -349,7 +368,7 @@ Passing the data is similar to how it is done when using the Lenddo Button:
   ```java
   helper ​= new ​UIHelper(activity​, lenddoEventListener​);
   ```
-  
+
 2. Implement the LenddoEventListener. Passing the required data is done on the
 onButtonClicked() method.
 
@@ -368,7 +387,7 @@ onButtonClicked() method.
     return true​;
   }
   ```
-  
+
 Note that you have to pass the fields that you want to verify here as well as the client id. For the
 client ID, if you intend to do the complete onboarding flow later, you will need to provide a
 different one for this.
