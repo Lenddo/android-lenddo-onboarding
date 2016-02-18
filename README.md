@@ -56,7 +56,7 @@ Before you start on integrating the Lenddo SDK, please make sure you have the fo
 
 Download the Lenddo SDK and extract the archive into your local drive. After extracting the archive, the Lenddo SDK folder structure should look like this:
 
-![](http://www.lenddocdn.com/images/sdk-android-package.png)
+![](https://cloud.githubusercontent.com/assets/481942/13133878/ec7f8ae8-d63a-11e5-9ede-ae5140099fc5.png)
 
 The **LenddoSDK** folder contains the actual Lenddo SDK library project that you can include in your app. The **simple_loan** folder contains the sample app called **Simple Loan** which illustrates how to integrate the **Lenddo Button** into your existing app.
 
