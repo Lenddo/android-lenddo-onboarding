@@ -3,27 +3,27 @@ Lenddo SDK for Android
 
 ## Table of Contents
 
-1.  [Introduction](#introduction)
-2.  [An Overview of the Lenddo Process](#an-overview-of-the-lenddo-process)
-3.  [Getting Started](#getting-started)
-    1.  [Requirements](#requirements)
-    2.  [Installation update with screenshot](#installation-update-with-screenshot)
-4.  [Setting up the sample loan app](#setting-up-the-sample-loan-app)
-5.  [Adding the Lenddo library to your existing project](#adding-the-lenddo-library-to-your-existing-project)
-    1.  [Permissions](#permissions)
-    2.  [Notes on Backwards Compatibility and Issues](#notes-on-backwards-compatibility-and-issues)
-6.  [Integration](#integration)
-    1.  [Adding the Lenddo workflow to your app](#adding-the-lenddo-workflow-to-your-app)
-    2.  [Add the Lenddo Button to your form](#add-the-lenddo-button-to-your-form)
-    3.  [Customizing the Lenddo Button](#customizing-the-lenddo-button)
-    4.  [Passing a Facebook Token (Optional)](#passing-a-facebook-token-optional)
-        1. [Setting up your app](#setting-up-your-app)
-    5.  [Directly Passing Data for Verification (Requires Facebook token)](#directly-passing-data-for-verification-requires-facebook-token)
-    6.  [Using the auto-collector (Optional)](#using-the-auto-collector-optional)
+1.  [Introduction](#user-content-introduction)
+2.  [An Overview of the Lenddo Process](#user-content-an-overview-of-the-lenddo-process)
+3.  [Getting Started](#user-content-getting-started)
+    1.  [Requirements](#user-content-requirements)
+    2.  [Installation update with screenshot](#user-content-installation-update-with-screenshot)
+4.  [Setting up the sample loan app](#user-content-setting-up-the-sample-loan-app)
+5.  [Adding the Lenddo library to your existing project](#user-content-adding-the-lenddo-library-to-your-existing-project)
+    1.  [Permissions](#user-content-permissions)
+    2.  [Notes on Backwards Compatibility and Issues](#user-content-notes-on-backwards-compatibility-and-issues)
+6.  [Integration](#user-content-integration)
+    1.  [Adding the Lenddo workflow to your app](#user-content-adding-the-lenddo-workflow-to-your-app)
+    2.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
+    3.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
+    4.  [Passing a Facebook Token (Optional)](#user-content-passing-a-facebook-token-optional)
+        1. [Setting up your app](#user-content-setting-up-your-app)
+    5.  [Directly Passing Data for Verification (Requires Facebook token)](#user-content-directly-passing-data-for-verification-requires-facebook-token)
+    6.  [Using the auto-collector (Optional)](#user-content-using-the-auto-collector-optional)
 
 ## Introduction
 
-This is the Lenddo SDK for Android based devices, if you are developing for other platforms like IOS and web, please refer to the online documentation: [https://www.lenddo.com/documentation](https://www.lenddo.com/documentation)
+This is the Lenddo SDK for Android based devices, if you are developing for other platforms like IOS and web, please refer to the [online documentation] (http://www.lenddo.com/documentation/lenddo_button.html)
 
 The Lenddo SDK for Android allows you to integrate the Lenddo Verification and/or Scoring workflow seamlessly into your Android app.
 
@@ -38,8 +38,8 @@ The Lenddo SDK for Android allows you to integrate the Lenddo Verification and/o
 
 ## Getting Started
 
-1.  First make sure you have all the requirements. See the [Requirements](#requirements) section below.
-2.  Successfully run the SDK in a simple loan app. See the [Installation update with screenshot](#installation-update-with-screenshot) section below.
+1.  First make sure you have all the requirements. See the [Requirements](#user-content-requirements) section below.
+2.  Successfully run the SDK in a simple loan app. See the [Installation update with screenshot](#user-content-installation-update-with-screenshot) section below.
 3.  Add the Lenddo SDK libraries to your own application.
 4.  Test and deploy
 
@@ -264,7 +264,7 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
     **Important Note:** It is important here that you must pass a unique identifier to formData.setUserId, this will be used if you want to match your transaction records later on.
 
 7.  Clicking on the Lenddo Button should trigger the Lenddo Authorization/Verification process and your app will be notified via onAuthorizeComplete when the user id done.
-8.  Depending on your requirements a score may be available, in this case this is available through our REST APIs. (_Please check here for details https://www.lenddo.com/documentation/rest_api_)
+8.  Depending on your requirements a score may be available, in this case this is available through our REST APIs. (_Please check here for details http://www.lenddo.com/documentation/rest_api.html_)
 
 ### Customizing the Lenddo Button
 
@@ -355,11 +355,11 @@ processing. No popup will be shown and the whole process is done by code.
 
 In order to do this the following are needed:
 
-1. A valid facebook access token. Please refer to the section [Passing a Facebook Token (Optional)](#passing-a-facebook-token-optional) on the required permissions.
+1. A valid facebook access token. Please refer to the section [Passing a Facebook Token (Optional)](#user-content-passing-a-facebook-token-optional) on the required permissions.
 
 2. **api secret** - This is provided by your Lenddo contact or obtained through your
-Dashboard. If you have done this before in [Setting up your app](#setting-up-your-app) then this is already
-setup. Otherwise perform step 1 of the process in the section [Setting up your app](#setting-up-your-app).
+Dashboard. If you have done this before in [Setting up your app](#user-content-setting-up-your-app) then this is already
+setup. Otherwise perform step 1 of the process in the section [Setting up your app](#user-content-setting-up-your-app).
 
 Passing the data is similar to how it is done when using the Lenddo Button:
 
