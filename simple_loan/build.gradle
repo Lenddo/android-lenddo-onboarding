@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
 
 
     packagingOptions {
@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "lenddo.com.lenddoconnect"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 18
         versionCode 1
         versionName "1.0"
