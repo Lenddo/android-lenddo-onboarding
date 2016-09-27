@@ -246,9 +246,9 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
     @Override
     public boolean onButtonClicked(FormDataCollector formData) {
 
-        //place partner defined user identifier
-        formData.setUserId("123456789");
-        formData.setLastName(lastName.getText().toString());
+        //place partner defined client identifier
+        formData.setClientId("123456789");
+        IformData.setLastName(lastName.getText().toString());
         formData.setFirstName(firstName.getText().toString());
         formData.setEmail(email.getText().toString());
         formData.setDateOfBirth(dateOfBirth);
@@ -261,9 +261,9 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
     }
     ```
 
-    **Important Note:** It is important here that you must pass a unique identifier to formData.setUserId, this will be used if you want to match your transaction records later on.
+    **Important Note:** It is important here that you must pass a unique identifier to formData.setClientId, this will be used if you want to match your transaction records later on.
 
-7.  Clicking on the Lenddo Button should trigger the Lenddo Authorization/Verification process and your app will be notified via onAuthorizeComplete when the user id done.
+7.  Clicking on the Lenddo Button should trigger the Lenddo Authorization/Verification process and your app will be notified via onAuthorizeComplete when the process is done.
 8.  Depending on your requirements a score may be available, in this case this is available through our REST APIs. (_Please check here for details http://www.lenddo.com/documentation/rest_api.html_)
 
 ### Customizing the Lenddo Button
