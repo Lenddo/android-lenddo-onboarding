@@ -248,7 +248,7 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
 
         //place partner defined client identifier
         formData.setClientId("123456789");
-        IformData.setLastName(lastName.getText().toString());
+        formData.setLastName(lastName.getText().toString());
         formData.setFirstName(firstName.getText().toString());
         formData.setEmail(email.getText().toString());
         formData.setDateOfBirth(dateOfBirth);
