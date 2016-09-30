@@ -211,6 +211,9 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
         protected void onCreate(Bundle savedInstanceState) {
             ....
             helper = new UIHelper(this, this);
+            String clientId = "your client id";
+            LenddoCoreInfo.setCoreInfo(getApplicationContext(), LenddoCoreInfo.COREINFO_CLIENT_ID, clientId);
+            LenddoCoreInfo.initCoreInfo(getApplicationContext(), "");
 
         }
 
