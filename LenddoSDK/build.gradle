@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 18
+        targetSdkVersion 23
     }
 
     packagingOptions {
@@ -33,4 +33,6 @@ dependencies {
     compile 'commons-codec:commons-codec:1.10'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.squareup.okio:okio:1.11.0'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
 }

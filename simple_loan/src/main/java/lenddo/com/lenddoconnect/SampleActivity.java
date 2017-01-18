@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lenddo.sdk.core.LenddoConstants;
 import com.lenddo.sdk.core.LenddoEventListener;
 import com.lenddo.sdk.models.Address;
 import com.lenddo.sdk.models.AuthorizationStatus;
@@ -23,6 +25,8 @@ import com.lenddo.sdk.models.FormDataCollector;
 import com.lenddo.sdk.utils.UIHelper;
 import com.lenddo.sdk.widget.LenddoButton;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
@@ -34,7 +38,7 @@ public class SampleActivity extends Activity implements LenddoEventListener {
     private EditText firstName;
     private EditText email;
     private TextView dateOfBirth;
-    private EditText loanAmmount;
+    private EditText loanAmount;
     private Spinner gender;
     private Spinner sourceOfFunds;
     private UIHelper helper;
@@ -95,7 +99,7 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         employmentStartDateButton = (Button)findViewById(R.id.employmentStartButton);
         employmentEndDateButton = (Button)findViewById(R.id.employmentEndButton);
 
-        loanAmmount = (EditText) findViewById(R.id.editTextLoanAmount);
+        loanAmount = (EditText) findViewById(R.id.editTextLoanAmount);
         gender = (Spinner) findViewById(R.id.spinnerGender);
         sourceOfFunds = (Spinner) findViewById(R.id.spinnerSourceOfFunds);
         nameOfEmployer = (TextView) findViewById(R.id.editTextNameOfEmployer);
@@ -136,7 +140,8 @@ public class SampleActivity extends Activity implements LenddoEventListener {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         c.set(year, monthOfYear, dayOfMonth);
-                        editTextEmploymentStart.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH));
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        editTextEmploymentStart.setText(dateFormat.format(c.getTime()));
                     }
                 }, year, month, day);
                 datePicker.show();
@@ -155,7 +160,8 @@ public class SampleActivity extends Activity implements LenddoEventListener {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         c.set(year, monthOfYear, dayOfMonth);
-                        editTextEmploymentEnd.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH));
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        editTextEmploymentEnd.setText(dateFormat.format(c.getTime()));
                     }
                 }, year, month, day);
                 datePicker.show();
@@ -173,6 +179,19 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         //setup the Lenddo Button
         button.setUiHelper(helper);
 
+        Spinner spn_hostname = (Spinner) findViewById(R.id.spn_hostname);
+        spn_hostname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selected = adapterView.getItemAtPosition(i).toString();
+                LenddoConstants.AUTHORIZE_DATA_ENDPOINT = selected;
+                Log.i(TAG, "Changed hostname to: "+selected);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     @Override
@@ -196,9 +215,7 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         primaryAddress.setCountryCode("PH");
 
         //place partner defined user identifier
-        formData.setClientId(customerId.getText().toString());
-
-
+        formData.setApplicationId(customerId.getText().toString());
         formData.setLastName(lastName.getText().toString());
         formData.setMiddleName(middleName.getText().toString());
         formData.setHomePhone(homePhone.getText().toString());
@@ -216,24 +233,18 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         formData.setAddress(primaryAddress);
 
         //send custom fields
-        formData.putField("Loan_Amount", loanAmmount.getText().toString());
+        formData.putField("Loan_Amount", loanAmount.getText().toString());
 
         formData.validate();
-
 
         return true;
     }
 
     @Override
     public void onAuthorizeComplete(FormDataCollector collector) {
-        //Called when the process is complete
-
         Intent finishIntent = new Intent(SampleActivity.this, CompleteActivity.class);
         AuthorizationStatus status = collector.getAuthorizationStatus();
-        finishIntent.putExtra("verification", status.getVerification());
-        finishIntent.putExtra("status", status.getStatus());
-        finishIntent.putExtra("userId", status.getUserId());
-        finishIntent.putExtra("transId", status.getTransId());
+        finishIntent.putExtra("client_id", status.getClientId());
 
         startActivity(finishIntent);
         finish();
@@ -241,17 +252,20 @@ public class SampleActivity extends Activity implements LenddoEventListener {
 
     @Override
     public void onAuthorizeCanceled(FormDataCollector collector) {
-        //Called when canceled
-
-        Toast.makeText(SampleActivity.this, "canceled!", Toast.LENGTH_LONG).show();
+        Toast.makeText(SampleActivity.this, "cancelled!", Toast.LENGTH_LONG).show();
         Intent finishIntent = new Intent(SampleActivity.this, CanceledActivity.class);
         startActivity(finishIntent);
         finish();
     }
 
     @Override
-    public void onAuthorizeError(int statusCode, String response) {
-        //Called when unexpected errors
+    public void onAuthorizeError(int statusCode, String rawResponse) {
+        Toast.makeText(SampleActivity.this, "Error! code: "+statusCode+" response:"+rawResponse, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAuthorizeFailure(Throwable throwable) {
+        Toast.makeText(SampleActivity.this, "Failure: "+throwable.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override

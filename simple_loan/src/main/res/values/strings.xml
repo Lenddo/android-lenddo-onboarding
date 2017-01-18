@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="facebook_app_id">480560325445682</string>
+    <string name="hostname">Hostname</string>
     <string name="app_name">Simple Loan</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -49,5 +50,10 @@
     <string name="set_primary_address">Set Primary Address</string>
     <string name="click_here_to_set_your_address">Click here to confirm your address</string>
     <string name="title_activity_login">LoginActivity</string>
+
+    <string-array name="array_hostname">
+        <item>https://qa-authorize.partner-service.link</item>
+        <item>https://authorize-api.partner-service.link</item>
+    </string-array>
 
 </resources>
