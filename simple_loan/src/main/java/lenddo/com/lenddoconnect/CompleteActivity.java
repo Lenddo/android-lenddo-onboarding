@@ -17,8 +17,8 @@ public class CompleteActivity extends Activity {
         setContentView(R.layout.activity_complete_generic);
         TextView transactionInfo = (TextView)findViewById(R.id.transactionInformation);
         Intent intent = getIntent();
-        String transactionId = intent.getStringExtra("transId");
-        transactionInfo.setText(Html.fromHtml("Your transaction ID is: <b>" + transactionId + "</b>"));
+        String clientId = intent.getStringExtra("client_id");
+        transactionInfo.setText(Html.fromHtml("Your Client Id is: <b>" + clientId + "</b>"));
     }
 
 

@@ -16,10 +16,7 @@ Lenddo SDK for Android
     1.  [Adding the Lenddo workflow to your app](#user-content-adding-the-lenddo-workflow-to-your-app)
     2.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
     3.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
-    4.  [Passing a Facebook Token (Optional)](#user-content-passing-a-facebook-token-optional)
-        1. [Setting up your app](#user-content-setting-up-your-app)
-    5.  [Directly Passing Data for Verification (Requires Facebook token)](#user-content-directly-passing-data-for-verification-requires-facebook-token)
-    6.  [Using the auto-collector (Optional)](#user-content-using-the-auto-collector-optional)
+
 
 ## Introduction
 
@@ -117,11 +114,6 @@ The required permissions are already defined in the Lenddo SDK and should automa
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
 
-### Notes on Backwards Compatibility and Issues
-
-There is a compatibility issue with the latest Chrome-based WebView on Android 4.4 (kitkat) and above. It is recommended to set your **targetSdkVersion** to **18** or below when using the Lenddo SDK.
-
-The SDK has been tested on Android ICS 4.0 and above. Compatibility is not guaranteed on lower versions.
 
 ## Integration
 
@@ -135,24 +127,6 @@ Edit your apps' AndroidManifest.xml (located in your src/main folder for gradle 
 
 where **partner_script_id** is the partner script id provided to you by Lenddo.
 
-### Enable quirks mode.
-
-The Lenddo SDK requires WebView quirks mode to be enabled. The only way to do this
-is to set the targetSdkVersion to 18. Please add the following to your build.gradle
-file
-
-```groovy
-android {
-
-  .....
-
-  defaultConfig {
-    .....
-    targetSdkVersion 18
-    .....
-  }
-}
-```
 
 ### Add the Lenddo Button to your form
 
@@ -211,10 +185,9 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
         protected void onCreate(Bundle savedInstanceState) {
             ....
             helper = new UIHelper(this, this);
-            String clientId = "your client id";
-            LenddoCoreInfo.setCoreInfo(getApplicationContext(), LenddoCoreInfo.COREINFO_CLIENT_ID, clientId);
+            String applicationId = "your application id";
+            LenddoCoreInfo.setCoreInfo(getApplicationContext(), LenddoCoreInfo.COREINFO_CLIENT_ID, applicationId);
             LenddoCoreInfo.initCoreInfo(getApplicationContext(), "");
-
         }
 
         @Override
@@ -289,154 +262,3 @@ You may customize the Look and Feel of the Lenddo Button in a couple of ways:
     });
     ```
 
-### Passing a Facebook Token (Optional)
-
-The lenddo SDK allows you to reuse the existing facebook token that you have in your app that
-was obtained using the Facebook SDK. This will allow the Lenddo onboarding process to skip
-its own facebook login and use your token instead. Do note that certain facebook permissions
-must be approved in your Facebook API account in order for the Lenddo verification process to
-work properly, below is the list:
-
-1. email
-2. public_profile
-3. user_birthday
-4. user_work_history
-5. user_education_history
-6. user_friends
-7. user_likes
-
-The above facebook permissions must be requested by your app when the user logs in.
-
-Some of these permissions would require the you go through a verification process that is done
-by facebook. Make sure that you already have these permissions when you proceed. Any
-missing permission would result to problems or limitations in process.
-
-Note that this is optional, if no facebook token is passed to the SDK, the facebook login will be
-shown during the onboarding process.
-
-#### Setting up your App
-
-Additional settings will need to be added to your app namely the **api secret**. This will be
-provided to you by your Lenddo representative.
-
-1. Add the api secret. In your AndroidManifest.xml, make sure to add the following meta:
-
-  ```java
-  <application ….>
-    <meta­data ​android​:​name​=​"partnerApiSecret" ​android​:value=​"api_secret_here" ​/>
-  </application>
-  ```
-2. Pass the actual facebook token during the onboarding process using the
-`setFacebookToken​method`, the actual token and expiration date are passed (see below for
-an example):
-
-  ```java
-  @Override
-  public boolean ​onButtonClicked(FormDataCollector formData) {
-    //auto­collect (optional)
-    formData .collect(SampleActivity.this​, R.id.formContainer​);
-
-    AccessToken accessToken = AccessToken.​getCurrentAccessToken​();
-    formData.setFacebookToken(accessToken.getToken().toString(),
-    accessToken.getExpires().getTime());
-
-    Address primaryAddress = new ​Address();
-
-    primaryAddress.setHouseNumber(houseNumber​.getText().toString());
-    primaryAddress.setStreet(street​.getText().toString());
-    primaryAddress.setBarangay(barangay​.getText().toString());
-    primaryAddress.setProvince(province​.getText().toString());
-    primaryAddress.setCity(city​.getText().toString());
-    primaryAddress.setPostalCode(postalCode​.getText().toString());
-  ```
-
-### Directly Passing Data for Verification (Requires Facebook token)
-
-If you have a facebook token and only verification is needed by your app, you may skip the
-authorize flow web process and submit your application directly to the Lenddo backend for
-processing. No popup will be shown and the whole process is done by code.
-
-In order to do this the following are needed:
-
-1. A valid facebook access token. Please refer to the section [Passing a Facebook Token (Optional)](#user-content-passing-a-facebook-token-optional) on the required permissions.
-
-2. **api secret** - This is provided by your Lenddo contact or obtained through your
-Dashboard. If you have done this before in [Setting up your app](#user-content-setting-up-your-app) then this is already
-setup. Otherwise perform step 1 of the process in the section [Setting up your app](#user-content-setting-up-your-app).
-
-Passing the data is similar to how it is done when using the Lenddo Button:
-
-1. Create an instance of the `UIHelper`
-
-  ```java
-  helper ​= new ​UIHelper(activity​, lenddoEventListener​);
-  ```
-
-2. Implement the LenddoEventListener. Passing the required data is done on the
-onButtonClicked() method.
-
-  ```java
-  @Override
-  public boolean ​onButtonClicked(FormDataCollector formData) {
-    formData.setClientId(customerId​.getText().toString());
-    formData.setLastName(lastName​.getText().toString());
-    formData.setMiddleName(middleName​.getText().toString());
-    formData.setHomePhone(homePhone​.getText().toString());
-    formData.setFirstName(firstName​.getText().toString());
-    formData.setEmail(email​.getText().toString());
-    formData.setEmployerName(nameOfEmployer​.getText().toString());
-    formData.setMobilePhone(mobilePhone​.getText().toString());
-    formData.validate();
-    return true​;
-  }
-  ```
-
-Note that you have to pass the fields that you want to verify here as well as the client id. For the
-client ID, if you intend to do the complete onboarding flow later, you will need to provide a
-different one for this.
-
-3. Call the `UIHelper.startVerificationUsingFacebookToken()` to start the verificaton process
-passing along the UIHelper and facebook token details (See below for an example):
-
-```java
-    AccessToken accessToken = AccessToken.getCurrentAccessToken();
-    UIHelper.startVerificationUsingFacebookToken(activity,
-    accessToken.getToken().toString(), accessToken.getExpires().getTime(),
-    uiHelper);
-```
-
-The `onAuthorizeComplete()` callback method will be called once the process is complete.
-Lenddo’s servers will begin to verify the passed information asynchronously. To obtain the
-verification results, please refer to the REST api documentation.
-
-### Using the auto-collector (Optional)
-
-This is optional. If you don’t what to use `.getText()` on settings the field values, the auto-collector allows you to send tagged fields in your layout by simply using `formData.collect()`. however, you do need to tell the auto-collector which fields need to be sent. This is done by adding a tag field to your layout xml like below:
-
-```java
-<LinearLayout style="@style/fieldContainer">
-    <TextView
-        style="@style/formLabel"
-        android:text="@string/house_number"/>
-    <EditText
-        android:tag="house_number"
-        android:id="@+id/editTextHouseNumber"
-        android:hint="ex. 123"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
-<LinearLayout style="@style/fieldContainer">
-    <TextView
-        style="@style/formLabel"
-        android:text="@string/street_name"/>
-
-    <EditText
-        android:tag="street_name"
-        android:id="@+id/editTextStreetName"
-        android:layout_width="match_parent"
-        android:hint="ex. makati ave"
-        android:layout_height="wrap_content" />
-</LinearLayout>
-```
-
-The **android:tag** name will be used by the auto-collector in determining which fields need to be sent and what the attribute name to use.
