@@ -254,6 +254,7 @@ You may customize the Look and Feel of the Lenddo Button in a couple of ways:
 
     ```java
     helper = new UIHelper(this, this);
+    LenddoCoreInfo.initCoreInfo(getApplicationContext());
 
     Button sampleButton = (Button) findViewById(R.id.sample_button);
 
