@@ -60,19 +60,14 @@ The **LenddoSDK** folder contains the actual Lenddo SDK library project that you
 ## Setting up the Sample Loan App
 
 1.  Using Android Studio, click on **Select File -> Open** and **choose** the folder LenddoSDK-android which was created when you extracted the Lenddo SDK.zip. Android Studio will automatically set up the project for you.
-2.  The sample app is already configured to use the LenddoSDK, all you need to do is to fill in your **partner-script-id**. Edit the **simple_loan/src/main/res/values/config.xml** and replace the words “PLACE YOUR PARTNER SCRIPT ID HERE” with the **partner_script_id** key provided to you. (See below)
-
-    ```xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <resources>
-      <!-- Lenddo Partner Script ID -->
-      <string name="lenddo_app_id">PLACE_YOUR_PARTNER_SCRIPT_ID_HERE</string>
-    </resources>
-    ```
+2.  The sample app is already configured to use the LenddoSDK, all you need to do is to fill in your **partner_script_id**. Edit the **AndroidManifest.xml** file and replace the **partner_script_id** value with the key provided to you. (See below)
+```
+<meta-data android:name="partnerScriptId" android:value="partner_script_id" />
+```
 
 3.  Now, build and run the sample app (_make sure you have your emulator running or you have an Android device connected and configured for development. If you need more information on how to do this, please refer to the Android Studio documentation to learn more_).
-4.  When the sample app successfully launches, you will see a sample form with a Lenddo Button at the bottom and q client ID field above it. This Client ID field corresponds to a user id or application id that is created by your app (for testing purposes you can enter a sample ID).
-5.  Click on the Verify with Lenddo button to complete the authorize process.
+4.  When the sample app successfully launches, you will see a sample form with a Lenddo Button at the bottom and a application ID field above it. This Application ID field corresponds to a user id or client id that is created by your app (for testing purposes you can enter a sample ID). An application id can only be used once.
+5.  Click on the **Submit and Get Verified** button to complete the authorize process.
 
 If you would like more information on how this works you can view The file **SampleActivity.java** in the simple_loan/src/main/java/lenddo.com.lenddoconnect folder
 
@@ -126,6 +121,10 @@ Edit your apps' AndroidManifest.xml (located in your src/main folder for gradle 
 ```
 
 where **partner_script_id** is the partner script id provided to you by Lenddo.
+
+### Configuring the Partner Script Id dynamically
+
+Normally, an application will only need a single partner script id. The Onboarding SDK allows changing of partner script id dynamically by setting it using the FormDataCollector object. Simply call the setPartnerScriptId() method before calling the UIHelper.showAuthorize() method or before clicking the Lenddo button.
 
 
 ### Add the Lenddo Button to your form
@@ -186,8 +185,8 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
             ....
             helper = new UIHelper(this, this);
             String applicationId = "your application id";
-            LenddoCoreInfo.setCoreInfo(getApplicationContext(), LenddoCoreInfo.COREINFO_CLIENT_ID, applicationId);
-            LenddoCoreInfo.initCoreInfo(getApplicationContext(), "");
+            LenddoCoreInfo.setCoreInfo(getApplicationContext(), LenddoCoreInfo.COREINFO_APPLICATION_ID, applicationId);
+            LenddoCoreInfo.initCoreInfo(getApplicationContext());
         }
 
         @Override
@@ -222,12 +221,16 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
     @Override
     public boolean onButtonClicked(FormDataCollector formData) {
 
-        //place partner defined client identifier
-        formData.setClientId("123456789");
+        //place partner defined application id if not yet defined
+        formData.setApplicationId("123456789");
         formData.setLastName(lastName.getText().toString());
         formData.setFirstName(firstName.getText().toString());
         formData.setEmail(email.getText().toString());
         formData.setDateOfBirth(dateOfBirth);
+        
+        // Configure the partner script dynamically if needed
+        String partnerscript_id = "YOUR NEW PARTNER SCRIPT ID";
+        formData.setPartnerScriptId(partnerscript_id);
 
         //send custom fields
         formData.putField("Loan_Amount", loanAmmount.getText().toString());
@@ -237,7 +240,7 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
     }
     ```
 
-    **Important Note:** It is important here that you must pass a unique identifier to formData.setClientId, this will be used if you want to match your transaction records later on.
+    **Important Note:** It is important here that you must pass a unique identifier to formData.setApplicationId, this will be used if you want to match your transaction records later on.
 
 7.  Clicking on the Lenddo Button should trigger the Lenddo Authorization/Verification process and your app will be notified via onAuthorizeComplete when the process is done.
 8.  Depending on your requirements a score may be available, in this case this is available through our REST APIs. (_Please check here for details http://www.lenddo.com/documentation/rest_api.html_)

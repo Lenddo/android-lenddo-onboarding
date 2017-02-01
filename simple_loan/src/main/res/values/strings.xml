@@ -36,7 +36,7 @@
     <string name="thank_you">Thank you we have received your loan application.</string>
     <string name="middle_name">Middle Name</string>
     <string name="title_activity_form_builder">FormBuilderActivity</string>
-    <string name="customer_id">Client ID</string>
+    <string name="customer_id">Application ID</string>
     <string name="ellipses">...</string>
     <string name="employment_start_date">Employment Start Date</string>
     <string name="employment_end_date">Employment end date</string>
