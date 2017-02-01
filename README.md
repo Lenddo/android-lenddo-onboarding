@@ -11,11 +11,11 @@ Lenddo SDK for Android
 4.  [Setting up the sample loan app](#user-content-setting-up-the-sample-loan-app)
 5.  [Adding the Lenddo library to your existing project](#user-content-adding-the-lenddo-library-to-your-existing-project)
     1.  [Permissions](#user-content-permissions)
-    2.  [Notes on Backwards Compatibility and Issues](#user-content-notes-on-backwards-compatibility-and-issues)
 6.  [Integration](#user-content-integration)
     1.  [Adding the Lenddo workflow to your app](#user-content-adding-the-lenddo-workflow-to-your-app)
-    2.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
-    3.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
+    2.  [Configuring the Partner Script Id dynamically](#configuring-the-partner-script-id-dynamically)
+    3.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
+    4.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
 
 
 ## Introduction
