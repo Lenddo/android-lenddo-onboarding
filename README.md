@@ -16,6 +16,7 @@ Lenddo SDK for Android
     2.  [Configuring the Partner Script Id dynamically](#configuring-the-partner-script-id-dynamically)
     3.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
     4.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
+    5.  [Customizing the Popup Dialog when pressing the back key](#user-content-customizing-the-popup-dialog-when-pressing-the-back-key)
 
 
 ## Introduction
@@ -202,6 +203,13 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
         public void onAuthorizeCanceled(FormDataCollector collector) {
         }
 
+        @Override
+        public void onBackPressed() {
+            if (helper.onBackPressed()) {
+                super.onBackPressed();
+            }
+        }
+        
         ....
     }
     ```
@@ -266,3 +274,24 @@ You may customize the Look and Feel of the Lenddo Button in a couple of ways:
     });
     ```
 
+### Customizing the Popup Dialog when pressing the back key
+
+Pressing the back key during the onboarding process will return the user to the previous screen. While on the initial screen, pressing the back key will display a popup dialog that will confirm if the user wants to cancel the onboarding process.
+
+To customize the popup dialog's strings, simply add the following method after initializing the **helper** object:
+
+```java
+    helper = new UIHelper(this, this);
+    helper.customizeBackPopup("Custom Back Title", "Custom Back Popup Message", "CUSTOM YES", "CUSTOM NO");
+```
+
+Also, overwrite the onBackPressed method of the calling Activity:
+
+```java
+    @Override
+    public void onBackPressed() {
+        if (helper.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+```

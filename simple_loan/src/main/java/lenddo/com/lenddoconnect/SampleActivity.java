@@ -171,7 +171,7 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         helper = new UIHelper(this, this);
 
         String genderChoices[] = {"Male","Female"};
-        gender.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, genderChoices));
+        gender.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, genderChoices));
 
         String sourceOfFundsChoices[] = {"Please Select", "Salary", "Commission", "Business",
                 "Pension", "Remittance", "Allowance", "Self-Employed"};
@@ -197,7 +197,7 @@ public class SampleActivity extends Activity implements LenddoEventListener {
     @Override
     public boolean onButtonClicked(FormDataCollector formData) {
         //auto-collect (optional)
-        formData .collect(SampleActivity.this, R.id.formContainer);
+        formData.collect(SampleActivity.this, R.id.formContainer);
 
         //If facebook is available
 
