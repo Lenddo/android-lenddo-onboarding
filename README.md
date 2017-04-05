@@ -125,7 +125,7 @@ dependencies {
 > dependencies {
 >    compile fileTree(dir: 'libs', include: ['*.jar'])
 >    compile project(':LenddoSDK')
->    compile 'com.google.android.gms:play-services-auth:10.0.0'
+>    compile 'com.google.android.gms:play-services-auth:9.8.0'
 > }
 >
 > apply plugin: 'com.google.gms.google-services'
@@ -220,6 +220,7 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
     protected void onCreate(Bundle savedInstanceState) {
         ....
         helper = new UIHelper(this, this);
+        helper.addGoogleSignIn(new GoogleSignInHelper());  // Add this line only if your application has an email onboarding process.
     }
     ```
 
@@ -235,6 +236,7 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
         protected void onCreate(Bundle savedInstanceState) {
             ....
             helper = new UIHelper(this, this);
+            helper.addGoogleSignIn(new GoogleSignInHelper());  // Add this line only if your application has an email onboarding process.
             String applicationId = "your application id";
             LenddoCoreInfo.setCoreInfo(getApplicationContext(), LenddoCoreInfo.COREINFO_APPLICATION_ID, applicationId);
             LenddoCoreInfo.initCoreInfo(getApplicationContext());
