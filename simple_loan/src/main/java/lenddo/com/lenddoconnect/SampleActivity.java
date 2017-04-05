@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lenddo.nativeonboarding.GoogleSignInHelper;
 import com.lenddo.sdk.core.LenddoConstants;
 import com.lenddo.sdk.core.LenddoEventListener;
 import com.lenddo.sdk.models.Address;
@@ -72,8 +73,6 @@ public class SampleActivity extends Activity implements LenddoEventListener {
 
         button = (LenddoButton) findViewById(R.id.verifyButton);
 
-
-
         lastName = (EditText) findViewById(R.id.editTextLastName);
         middleName = (EditText) findViewById(R.id.editTextMiddleName);
         firstName = (EditText) findViewById(R.id.editTextFirstName);
@@ -107,7 +106,6 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         mobilePhone = (TextView) findViewById(R.id.editTextMobileNumber);
         customerId = (TextView) findViewById(R.id.editTextCustomerId);
         customerId.setText("12345678");
-
 
         dobButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +167,8 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         });
 
         helper = new UIHelper(this, this);
+        helper.addGoogleSignIn(new GoogleSignInHelper());
+        helper.customizeBackPopup("Custom Back Title", "Custom Back Popup Message", "CUSTOM YES", "CUSTOM NO");
 
         String genderChoices[] = {"Male","Female"};
         gender.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, genderChoices));
