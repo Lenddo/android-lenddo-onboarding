@@ -18,7 +18,7 @@ Lenddo SDK for Android
     3.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
     4.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
     5.  [Customizing the Popup Dialog when pressing the back key](#user-content-customizing-the-popup-dialog-when-pressing-the-back-key)
-
+    6.  [Setting API Region](#user-content-setting-api-region)
 
 ## Introduction
 
@@ -349,3 +349,8 @@ Also, overwrite the onBackPressed method of the calling Activity:
         }
     }
 ```
+
+
+### Setting API Region
+
+To configure the Lenddo Onboarding SDK to use a specific API region. Refer to this [link](apiregion.md)
