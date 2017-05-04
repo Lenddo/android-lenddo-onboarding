@@ -10,7 +10,7 @@ Lenddo SDK for Android
     2.  [Installation update with screenshot](#user-content-installation-update-with-screenshot)
 4.  [Setting up the sample loan app](#user-content-setting-up-the-sample-loan-app)
 5.  [Adding the Lenddo library to your existing project](#user-content-adding-the-lenddo-library-to-your-existing-project)
-    1.  [Native Google Email Sign In Helper Class](#user-content-native-google-email-sign-in-helper-class)
+    1.  [Native Google Email Sign In Helper Class](#user-content-native-facebook-sign-in-helper-class)
     2.  [Permissions](#user-content-permissions)
 6.  [Integration](#user-content-integration)
     1.  [Adding the Lenddo workflow to your app](#user-content-adding-the-lenddo-workflow-to-your-app)
@@ -18,7 +18,10 @@ Lenddo SDK for Android
     3.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
     4.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
     5.  [Customizing the Popup Dialog when pressing the back key](#user-content-customizing-the-popup-dialog-when-pressing-the-back-key)
-    6.  [Setting API Region](#user-content-setting-api-region)
+    6.  [Using the Lenddo AutoComplete View](#user-content-using-the-lenddo-autocomplete-view)
+    7.  [Setting API Region](#user-content-setting-api-region)
+    8.  [Adding Native Facebook Integration](#user-content-adding-native-facebook-integration)
+7.  [Frequently Asked Questions](#user-content-frequently-asked-questions)
 
 ## Introduction
 
@@ -134,7 +137,7 @@ dependencies {
 > #### 2. In your project root build.gradle file:
 >```java
 > dependencies {
->        classpath 'com.android.tools.build:gradle:2.3.0'
+>        classpath 'com.android.tools.build:gradle:2.3.1'
 >        classpath 'com.google.gms:google-services:3.0.0'
 > }
 >```
@@ -350,7 +353,38 @@ Also, overwrite the onBackPressed method of the calling Activity:
     }
 ```
 
+### Using the Lenddo AutoComplete View
+
+To use Lenddo's AutoComplete view. Refer to this [link](autocomplete.md)
 
 ### Setting API Region
 
 To configure the Lenddo Onboarding SDK to use a specific API region. Refer to this [link](apiregion.md)
+
+### Adding Native Facebook Integration
+
+To configure the Lenddo Onboarding SDK to add native Facebook Integration. Refer to this [link](nativefacebookintegration.md)
+
+
+## Frequently Asked Questions
+
+#### *How do I use the Lenddo button without form data?*
+
+The application form data used as probe information are passed in the FormDataCollector object inside the onButtonClicked method. It is possible to not pass any other information aside from the application ID. See snippet below.
+
+```java
+@Override
+public boolean onButtonClicked(FormDataCollector formData) {
+    // Place partner defined application id if not yet defined
+    formData.setApplicationId("123456789");
+    return true;
+}
+```
+
+#### *Why do we require the Google Web Client ID?*
+
+While the google-services.json already contains the Google Android and Web OAuth2.0 Client IDs, it is still important to include the Google Web Client ID as a meta-data in the AndroidManifest.xml file. This data is then passed to the GoogleSignInHelper.java class and is part of the OAuth2.0 Native login process. The Web Client ID will be used by Lenddo's backend server to communicate callbacks for the login results. More information from [Google documentations](https://developers.google.com/identity/sign-in/android/start-integrating)
+
+#### *Why do I get an INVALID_AUDIENCE error when using Native Google Integration?*
+
+The INVALID_AUDIENCE error is caused by using the incorrect SHA1 signing certificate in the google-services.json file. Get your correct signing certificate hash for both debug and release using the gradle task "signingReport" and view the result in the Gradle console. Update your SHA1 certificate in the Firebase Console and download the latest google-services.json file.

@@ -50,10 +50,12 @@ public class GoogleSignInHelper implements SignInHelper, GoogleApiClient.Connect
     // Bool to track whether the app is already resolving an error
     private boolean mResolvingError = false;
     private WebAuthorizeFragment mFragment;
+    private String mScopes;
 
     public GoogleSignInHelper() {}
 
     public ArrayList<String> getScopes(String scopeFromWebUrl) {
+        mScopes = scopeFromWebUrl;
         ArrayList<String> scopes = new ArrayList<>();
         String[] words = scopeFromWebUrl.split("\\s+");
         Collections.addAll(scopes, words);
@@ -146,13 +148,11 @@ public class GoogleSignInHelper implements SignInHelper, GoogleApiClient.Connect
             @Override
             protected String doInBackground(Void... params) {
                 String token = null;
-                final String SCOPES = "https://www.googleapis.com/auth/plus.login ";
-
                 try {
                     token = GoogleAuthUtil.getToken(
                             mFragment.getActivity().getApplicationContext(),
                             email,
-                            "oauth2:" + SCOPES);
+                            "oauth2:" +mScopes);
                 } catch (IOException | GoogleAuthException e) {
                     e.printStackTrace();
                 }

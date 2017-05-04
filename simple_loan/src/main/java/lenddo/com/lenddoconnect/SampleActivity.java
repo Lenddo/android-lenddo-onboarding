@@ -17,14 +17,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lenddo.nativeonboarding.FacebookSignInHelper;
 import com.lenddo.nativeonboarding.GoogleSignInHelper;
 import com.lenddo.sdk.core.LenddoConstants;
 import com.lenddo.sdk.core.LenddoEventListener;
 import com.lenddo.sdk.models.Address;
 import com.lenddo.sdk.models.AuthorizationStatus;
+import com.lenddo.sdk.models.AutoCompleteQuery;
 import com.lenddo.sdk.models.FormDataCollector;
 import com.lenddo.sdk.utils.UIHelper;
+import com.lenddo.sdk.utils.Utils;
 import com.lenddo.sdk.widget.LenddoButton;
+import com.lenddo.sdk.widget.OnlineAutoCompleteTextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,7 +48,7 @@ public class SampleActivity extends Activity implements LenddoEventListener {
     private Spinner sourceOfFunds;
     private UIHelper helper;
     private TextView customerId;
-    private TextView nameOfEmployer;
+    private OnlineAutoCompleteTextView nameOfEmployer;
     private TextView mobilePhone;
     private Button dobButton;
     private EditText middleName;
@@ -56,14 +60,14 @@ public class SampleActivity extends Activity implements LenddoEventListener {
     private Button employmentEndDateButton;
     private TextView editTextEmploymentStart;
     private TextView editTextEmploymentEnd;
-    private EditText university;
+    private OnlineAutoCompleteTextView university;
     private EditText houseNumber;
     private EditText street;
     private EditText barangay;
     private EditText province;
     private EditText city;
-
     private EditText postalCode;
+    private EditText apiRegion;
 
 
     @Override
@@ -76,7 +80,8 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         lastName = (EditText) findViewById(R.id.editTextLastName);
         middleName = (EditText) findViewById(R.id.editTextMiddleName);
         firstName = (EditText) findViewById(R.id.editTextFirstName);
-        university = (EditText) findViewById(R.id.editTextUniversity);
+        university = (OnlineAutoCompleteTextView) findViewById(R.id.editTextUniversity);
+        setUniversityHints();
 
         houseNumber = (EditText) findViewById(R.id.editTextHouseNumber);
         street = (EditText) findViewById(R.id.editTextStreetName);
@@ -101,7 +106,8 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         loanAmount = (EditText) findViewById(R.id.editTextLoanAmount);
         gender = (Spinner) findViewById(R.id.spinnerGender);
         sourceOfFunds = (Spinner) findViewById(R.id.spinnerSourceOfFunds);
-        nameOfEmployer = (TextView) findViewById(R.id.editTextNameOfEmployer);
+        nameOfEmployer = (OnlineAutoCompleteTextView) findViewById(R.id.editTextNameOfEmployer);
+        setEmployerHints();
         homePhone = (TextView)findViewById(R.id.editTextPrimaryNumber);
         mobilePhone = (TextView) findViewById(R.id.editTextMobileNumber);
         customerId = (TextView) findViewById(R.id.editTextCustomerId);
@@ -168,7 +174,8 @@ public class SampleActivity extends Activity implements LenddoEventListener {
 
         helper = new UIHelper(this, this);
         helper.addGoogleSignIn(new GoogleSignInHelper());
-        helper.customizeBackPopup("Custom Back Title", "Custom Back Popup Message", "CUSTOM YES", "CUSTOM NO");
+        helper.addFacebookSignIn(new FacebookSignInHelper());
+        helper.customizeBackPopup("Custom Back Title", "Custom Back Popup Message", "Custom YES", "Custom NO");
 
         String genderChoices[] = {"Male","Female"};
         gender.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, genderChoices));
@@ -179,19 +186,40 @@ public class SampleActivity extends Activity implements LenddoEventListener {
         //setup the Lenddo Button
         button.setUiHelper(helper);
 
-        Spinner spn_hostname = (Spinner) findViewById(R.id.spn_hostname);
+        final Spinner spn_hostname = (Spinner) findViewById(R.id.spn_hostname);
         spn_hostname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selected = adapterView.getItemAtPosition(i).toString();
+                if (selected.equals("https://authorize-api.partner-service.link")) {
+                    if (Utils.getApiRegion().isEmpty()) {
+                        selected = "https://authorize-api%s.partner-service.link";
+                    } else {
+                        selected = Utils.getAuthorizeUrlWithRegion("https://authorize-api%s.partner-service.link");
+                    }
+                }
                 LenddoConstants.AUTHORIZE_DATA_ENDPOINT = selected;
-                Log.i(TAG, "Changed hostname to: "+selected);
+                Log.i(TAG, "Changed hostname to: "+LenddoConstants.AUTHORIZE_DATA_ENDPOINT);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        apiRegion = (EditText) findViewById(R.id.editTextApiRegion);
+    }
+
+    private void setEmployerHints() {
+        nameOfEmployer.region = AutoCompleteQuery.REGION_PH;
+        nameOfEmployer.collection = AutoCompleteQuery.COLLECTION_EMPLOYERS;
+        nameOfEmployer.version = "0";
+    }
+
+    private void setUniversityHints() {
+        university.region = AutoCompleteQuery.REGION_PH;
+        university.collection = AutoCompleteQuery.COLLECTION_UNIVERSITIES;
+        university.version = "0";
     }
 
     @Override
@@ -234,9 +262,8 @@ public class SampleActivity extends Activity implements LenddoEventListener {
 
         //send custom fields
         formData.putField("Loan_Amount", loanAmount.getText().toString());
-
         formData.validate();
-
+        helper.setApiRegion(apiRegion.getText().toString());
         return true;
     }
 
