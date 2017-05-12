@@ -10,17 +10,18 @@ Lenddo SDK for Android
     2.  [Installation update with screenshot](#user-content-installation-update-with-screenshot)
 4.  [Setting up the sample loan app](#user-content-setting-up-the-sample-loan-app)
 5.  [Adding the Lenddo library to your existing project](#user-content-adding-the-lenddo-library-to-your-existing-project)
-    1.  [Native Google Email Sign In Helper Class](#user-content-native-facebook-sign-in-helper-class)
-    2.  [Permissions](#user-content-permissions)
+    1.  [Native Google Email Sign In Helper Class](#user-content-native-google-email-sign-in-helper-class)
+    2.  [Permissions](#permissions)
 6.  [Integration](#user-content-integration)
     1.  [Adding the Lenddo workflow to your app](#user-content-adding-the-lenddo-workflow-to-your-app)
     2.  [Configuring the Partner Script Id dynamically](#configuring-the-partner-script-id-dynamically)
-    3.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
-    4.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
-    5.  [Customizing the Popup Dialog when pressing the back key](#user-content-customizing-the-popup-dialog-when-pressing-the-back-key)
-    6.  [Using the Lenddo AutoComplete View](#user-content-using-the-lenddo-autocomplete-view)
-    7.  [Setting API Region](#user-content-setting-api-region)
-    8.  [Adding Native Facebook Integration](#user-content-adding-native-facebook-integration)
+    3.  [Adding Probe data for Verification](#adding-probe-data-for-verification)
+    4.  [Add the Lenddo Button to your form](#user-content-add-the-lenddo-button-to-your-form)
+    5.  [Customizing the Lenddo Button](#user-content-customizing-the-lenddo-button)
+    6.  [Customizing the Popup Dialog when pressing the back key](#user-content-customizing-the-popup-dialog-when-pressing-the-back-key)
+    7.  [Using the Lenddo AutoComplete View](#user-content-using-the-lenddo-autocomplete-view)
+    8.  [Setting API Region](#user-content-setting-api-region)
+    9.  [Adding Native Facebook Integration](#user-content-adding-native-facebook-integration)
 7.  [Frequently Asked Questions](#user-content-frequently-asked-questions)
 
 ## Introduction
@@ -181,6 +182,33 @@ If the application have an email onboarding process, a Google Web Client Id is r
 Normally, an application will only need a single partner script id. The Onboarding SDK allows changing of partner script id dynamically by setting it using the FormDataCollector object. Simply call the setPartnerScriptId() method before calling the UIHelper.showAuthorize() method or before clicking the Lenddo button.
 
 
+### Adding Probe data for Verification
+    
+Probe data or user information are gathered from the application to be used for verification purposes. Probe may come from an application form that the user will need to fill up. Once the user fill's up the application form fields, the data is then passed to the Onboarding SDK as probe data. See code below on how to pass the probe data.
+
+```java
+// Get the user information from your application form's EditText widgets and pass them here
+private FormDataCollector getProbeData(FormDataCollector formData) {
+    // Place partner defined application id if not yet defined
+    formData.setApplicationId("YOUR_APPLICATION_ID_STRING_HERE");
+    formData.setLastName("LASTNAME STRING");
+    formData.setFirstName("FIRSTNAME STRING");
+    formData.setEmail("EMAIL STRING");
+    formData.setDateOfBirth("01/01/2000"); // FORMAT: dd/MM/yyyy
+    // Add additional fields such as EmployerName, MobilePhone, University, Address, etc
+    
+    // Configure the partner script dynamically if needed
+    String partnerscript_id = "YOUR NEW PARTNER SCRIPT ID";
+    formData.setPartnerScriptId(partnerscript_id);
+
+    //send custom fields
+    formData.putField("Loan_Amount", loanAmmount.getText().toString());
+
+    formData.validate();
+    return formData;
+}
+```
+
 ### Add the Lenddo Button to your form
 
 The Lenddo button greatly simplifies integrating the Lenddo workflow to your app.
@@ -283,22 +311,14 @@ The Lenddo button greatly simplifies integrating the Lenddo workflow to your app
     ```java
     @Override
     public boolean onButtonClicked(FormDataCollector formData) {
+        formData = getProbeData(formData);
 
-        //place partner defined application id if not yet defined
-        formData.setApplicationId("123456789");
-        formData.setLastName(lastName.getText().toString());
-        formData.setFirstName(firstName.getText().toString());
-        formData.setEmail(email.getText().toString());
-        formData.setDateOfBirth(dateOfBirth);
-        
-        // Configure the partner script dynamically if needed
-        String partnerscript_id = "YOUR NEW PARTNER SCRIPT ID";
-        formData.setPartnerScriptId(partnerscript_id);
+        // Place partner defined application id (if not yet defined)
+        formData.setApplicationId("YOUR_APPLICATION_ID_STRING_HERE");
+    
+        // Configure the partner script dynamically (if needed only)
+        formData.setPartnerScriptId("YOUR NEW PARTNER SCRIPT ID");
 
-        //send custom fields
-        formData.putField("Loan_Amount", loanAmmount.getText().toString());
-
-        formData.validate();
         return true;
     }
     ```
