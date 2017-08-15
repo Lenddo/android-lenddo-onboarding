@@ -200,8 +200,15 @@ private FormDataCollector getProbeData(FormDataCollector formData) {
     // Configure the partner script dynamically if needed
     String partnerscript_id = "YOUR NEW PARTNER SCRIPT ID";
     formData.setPartnerScriptId(partnerscript_id);
+    
+    // Adding Government IDs
+    governmentIds.add(new GovernmentId("DEMO-TYPE", "DEMO-VALUE"));
+    governmentIds.add(new GovernmentId("passport", "PAS018218ASVR"));
+    governmentIds.add(new GovernmentId("sss", "0-390128411-1274"));
+    governmentIds.add(new GovernmentId("tin", "3023749103"));
+    formData.setGovernmentIds(governmentIds);
 
-    //send custom fields
+    // send custom fields
     formData.putField("Loan_Amount", loanAmmount.getText().toString());
 
     formData.validate();
