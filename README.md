@@ -12,7 +12,7 @@ Lenddo SDK for Android
 5.  [Adding the Lenddo library to your existing project](#user-content-adding-the-lenddo-library-to-your-existing-project)
     1.  [Native Google Email Sign In Helper Class](#user-content-native-google-email-sign-in-helper-class)
     2.  [Permissions](#permissions)
-    3.  [Enabling GMail API](#user-content-enabling-gmail-api)
+    3.  [Enabling GMail API](#user-content-5.-enabling-gmail-api)
 6.  [Integration](#user-content-integration)
     1.  [Adding the Lenddo workflow to your app](#user-content-adding-the-lenddo-workflow-to-your-app)
     2.  [Configuring the Partner Script Id dynamically](#configuring-the-partner-script-id-dynamically)
