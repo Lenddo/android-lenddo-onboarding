@@ -12,6 +12,7 @@ Lenddo SDK for Android
 5.  [Adding the Lenddo library to your existing project](#user-content-adding-the-lenddo-library-to-your-existing-project)
     1.  [Native Google Email Sign In Helper Class](#user-content-native-google-email-sign-in-helper-class)
     2.  [Permissions](#permissions)
+    3.  [Enabling GMail API](#user-content-enabling-gmail-api)
 6.  [Integration](#user-content-integration)
     1.  [Adding the Lenddo workflow to your app](#user-content-adding-the-lenddo-workflow-to-your-app)
     2.  [Configuring the Partner Script Id dynamically](#configuring-the-partner-script-id-dynamically)
@@ -158,6 +159,12 @@ In addition to the required permissions defined from within the SDK, _which are 
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
 
+### 5. Enabling Gmail API
+In order for the application to have login access and use Gmail onboarding for scoring, the Gmail API must be enabled in the [Google API Console](https://console.developers.google.com/apis/library). 
+
+ - Choose the correct project
+ - Under Library, search for Gmail and click Enable
+ - Enabling Contacts API will also help improve score generation so enable that as well.
 
 ## Integration
 
