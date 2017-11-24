@@ -86,7 +86,7 @@ The **LenddoSDK** folder contains the actual Lenddo SDK library project that you
 ```
 
 5.  Now, build and run the sample app (_make sure you have your emulator running or you have an Android device connected and configured for development. If you need more information on how to do this, please refer to the Android Studio documentation to learn more_).
-6.  When the sample app successfully launches, you will see a sample form with a Lenddo Button at the bottom and an application ID field above it. This application ID field corresponds to an id that is created by your app (for testing purposes you can enter a sample ID).
+6.  When the sample app successfully launches, you will see a sample form with a Lenddo Button at the bottom and an application ID field above it. This application ID field corresponds to an id that is created by your app (for testing purposes you can enter a sample ID). Point the **hostname** to `https://authorize-api.partner-service.link`
 7.  Click on the **Submit and Get Verified** button to complete the authorize process.
 
 If you would like more information on how this works you can view The file **SampleActivity.java** in the simple_loan/src/main/java/lenddo.com.lenddoconnect folder
