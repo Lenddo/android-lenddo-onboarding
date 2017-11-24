@@ -54,8 +54,8 @@
     <string name="title_activity_login">LoginActivity</string>
 
     <string-array name="array_hostname">
-        <item>https://qa-authorize.partner-service.link</item>
         <item>https://authorize-api.partner-service.link</item>
+        <item>https://qa-authorize.partner-service.link</item>
         <item>http://durant.lendqa.com:8010</item>
     </string-array>
 
